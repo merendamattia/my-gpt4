@@ -5,11 +5,13 @@ from gpt4free import you
 from colorama import init, Fore, Back, Style
 init()
 
-# Vado a verificare se il file history_chat esiste già
-# Se non esiste lo creo
+# Vado a verificare se la cartella chat e se il file history_chat esistono già
+# Se non esistono li creo
 import os
-if not os.path.isfile('history_chat.txt'):
-    with open('history_chat.txt', 'w') as file:
+if not os.path.exists("chat"):
+    os.makedirs("chat")
+if not os.path.isfile('./chat/history_chat.txt'):
+    with open('./chat/history_chat.txt', 'w') as file:
         file.write("My history-chat$$$by @merendamattia")
 
 # Messaggio iniziale
@@ -21,7 +23,7 @@ chat = []
 output = "" 
 
 # Leggo la history-chat e 're-insegno' le cose a gpt
-with open('history_chat.txt', 'r') as file:
+with open('./chat/history_chat.txt', 'r') as file:
     for riga in file:
         contenuto_riga = riga.split("$$$")
         question = contenuto_riga[0].strip()
@@ -55,9 +57,9 @@ while True:
 
 # Leggo il vecchio contenuto della history-chat
 old = ""
-with open('history_chat.txt', 'r') as file:
+with open('./chat/history_chat.txt', 'r') as file:
     old = file.read()
 
 # Scrivo la nuova history-chat aggiornata
-with open('history_chat.txt', 'w') as file:
+with open('./chat/history_chat.txt', 'w') as file:
     file.write(old + output)
