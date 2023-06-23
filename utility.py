@@ -8,10 +8,12 @@ import os
 def initial_checks():
     if not os.path.exists("chat"):
         os.makedirs("chat")
-    """if not os.path.isfile('./chat/history_chat.txt'):
-        with open('./chat/history_chat.txt', 'w') as file:
-            file.write("$$$question: My history-chat\n$$$answer: by @merendamattia")
-    """
+    
+    path = './chat/chats_name.txt'
+
+    if not os.path.isfile(path):
+        with open(path, 'w') as file:
+            file.write("landing_chat")
 
 # ------------------------------------------------------------------------------------------
 
@@ -49,8 +51,8 @@ def upload_old_chat(chat_name, chat):
 # Esecuzione iterazione GPT-4
 def main(chat_name, chat, you):
     # Messaggio iniziale
-    print(Fore.RED + "#chatbot model GPT-4 (`q`: to quit)" + Fore.RESET)
-    print(Fore.MAGENTA + "Chat: " + chat_name + Fore.RESET)
+    print(Fore.RED + "#chatbot model GPT-4 (`q`: to quit)" + Fore.MAGENTA + " - Chat: " + chat_name + Fore.RESET)
+    # print(Fore.MAGENTA + "Chat: " + chat_name + Fore.RESET)
     
     # Mi serve per aggiornare poi la history-chat
     output = "" 
@@ -112,27 +114,30 @@ def choose_chat():
             file.write("landing_chat")
         return 'landing_chat'
     
-    print(Fore.MAGENTA + "Scegli la chat:")
-     
-    with open(path, 'r') as file:
-        c = 0 # conta le righe
-        
-        for line in file:
-            line = line.replace('\n', '')
-            c = c + 1
-            print(str(c) + '. ' + line)
+    while True:
+        with open(path, 'r') as file:
+            c = 0 # conta le righe
 
-        res = int(input("Scelta: "))
-    
-    print(Fore.RESET)
+            output = ""
+            
+            for line in file:
+                line = line.replace('\n', '')
+                c = c + 1
+                output += str(c) + '. ' + line
+            
+            if c > 1:
+                print(Fore.MAGENTA + "Scegli la chat:")
+                print(output)
+                res = int(input(Fore.RESET + "Scelta: "))
+            else:
+                res = 1
 
-    with open(path, 'r') as file:
-        c = 0 # conta le righe
-        for line in file:
-            c = c + 1
-            if c == res:
-                # print(line)
-                return str(line)
+        with open(path, 'r') as file:
+            c = 0 # conta le righe
+            for line in file:
+                c = c + 1
+                if c == res:
+                    return str(line)
     
 # ------------------------------------------------------------------------------------------
 
@@ -143,7 +148,7 @@ def menu():
         print(Fore.YELLOW + "Menù GPT-4")
         print("1. Avvia chatbot")
         print("2. Crea nuova chat")
-        print("3. Elimina chat (TODO)")
+        print("3. Elimina chat")
         print("0. Terminazione programma" + Fore.RESET)
         res = int(input("Scelta: "))
     return res
@@ -155,14 +160,55 @@ def add_chat_name():
     new_name = input("Inserisci il nome della nuova chat: ")
 
     path = "./chat/chats_name.txt"
-    
-    # Leggo il vecchio contenuto della chats_name
-    old = ""
-    with open(path, 'r') as file:
-        old = file.read()
 
-    new = old + "\n" + new_name
+    # Se non esiste l'elenco delle chat lo creo vuoto
+    if not os.path.isfile(path):
+        with open(path, 'w') as file:
+            file.write(new_name)
+    else:
+        # Leggo il vecchio contenuto della chats_name
+        old = ""
+        with open(path, 'r') as file:
+            old = file.read()
 
-    # Scrivo la nuova chats_name aggiornata
-    with open(path, 'w') as file:
-        file.write(new)
+        new = old + "\n" + new_name
+
+        # Scrivo la nuova chats_name aggiornata
+        with open(path, 'w') as file:
+            file.write(new)
+
+# ------------------------------------------------------------------------------------------
+
+# Elimino una chat
+def delete_chat():
+    path = './chat/chats_name.txt'
+
+    while True:
+        print(Fore.RED + "Scegli la chat da eliminare:")
+        
+        with open(path, 'r') as file:
+            c = 0 # conta le righe
+            
+            for line in file:
+                line = line.replace('\n', '')
+                c = c + 1
+                print(str(c) + '. ' + line)
+
+            # print(Fore.RESET)
+            res = int(input(Fore.RESET + "Scelta: "))
+
+        new_chats = ""
+        old_chat = ""
+
+        with open(path, 'r') as file:
+            c = 0 # conta le righe
+            for line in file:
+                c = c + 1
+                if c != res:
+                    new_chats += line
+                else:
+                    old_chat = line
+        
+        # Scrivo il nuovo elenco delle chat
+        with open(path, 'w') as file:
+            file.write(new_chats)

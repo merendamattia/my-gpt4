@@ -24,7 +24,6 @@ while True:
     elif res == 1:
         # Scelgo su quale chat lavorare
         chat_name = str(choose_chat())
-        # print("chat_name: " + chat_name)
 
         # Carico la vecchia history-chat
         upload_old_chat(chat_name, chat)
@@ -38,3 +37,7 @@ while True:
     elif res == 2:
         # Aggiungo una nuova chat
         add_chat_name()
+    
+    elif res == 3:
+        # Elimino una chat #TODO da finire
+        delete_chat()
