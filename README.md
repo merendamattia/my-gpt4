@@ -12,10 +12,10 @@ git clone https://github.com/merendamattia/my-gpt4.git
 
 ## Execution
 ```
-python3 gpt-4.py
+python3 __main.py__
 ```
 
 ---
 
 ### TODO list
-- Possibilità di eliminare la chat
+- Cambiare motore di ricerca
