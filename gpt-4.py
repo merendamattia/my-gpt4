@@ -4,24 +4,37 @@ from gpt4free import you
 # Importo le funzioni per l'esecuzione dell'algoritmo
 from utility import *
 
-# Serve per stampare le scritte colorate
-from colorama import init, Fore, Back, Style
-init()
+# Serve per far terminare il programma
+import sys
 
 # Verifico se le precondizioni sono rispettate
 initial_checks()
 
-# Messaggio iniziale
-print(Fore.RED + "#chatbot model GPT-4 (`q`: to quit)" + Fore.RESET)
-
 # Inizializzo la chat
 chat = []
 
-# Carico la vecchia history-chat
-upload_old_chat(chat)
+while True:
+    # Decido cosa fare
+    res = menu()
 
-# Esecuzione iterazione GPT-4
-output = main(chat, Fore, you)
+    if res == 0:
+        # Faccio terminare il programma
+        sys.exit()
 
-# Aggiorno la history-chat
-update_chat_log(output)
+    elif res == 1:
+        # Scelgo su quale chat lavorare
+        chat_name = str(choose_chat())
+        # print("chat_name: " + chat_name)
+
+        # Carico la vecchia history-chat
+        upload_old_chat(chat_name, chat)
+
+        # Esecuzione iterazione GPT-4
+        output = main(chat_name, chat, you)
+
+        # Aggiorno la history-chat
+        update_chat_log(chat_name, output)
+
+    elif res == 2:
+        # Aggiungo una nuova chat
+        add_chat_name()
