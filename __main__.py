@@ -13,17 +13,23 @@ initial_checks()
 # Inizializzo la chat
 chat = []
 
+print(Fore.LIGHTBLUE_EX + "**** Welcome to GPT-4 ****" + Fore.RESET)
+
 while True:
     # Decido cosa fare
     res = menu()
 
     if res == 0:
+        print(Fore.LIGHTBLUE_EX + "\n**** Addios! ****" + Fore.RESET)
         # Faccio terminare il programma
         sys.exit()
 
     elif res == 1:
         # Scelgo su quale chat lavorare
-        chat_name = str(choose_chat())
+        chat_name = choose_chat()
+
+        # Elimino il carattere "dell'andare a capo"
+        chat_name = chat_name.replace('\n', '')
 
         # Carico la vecchia history-chat
         upload_old_chat(chat_name, chat)
@@ -39,5 +45,5 @@ while True:
         add_chat_name()
     
     elif res == 3:
-        # Elimino una chat #TODO da finire
+        # Elimino una chat
         delete_chat()
