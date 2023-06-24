@@ -74,7 +74,7 @@ def main(chat_name, chat, you):
         answer = response.text
 
         # Stampo la risposta
-        print(Fore.BLUE + "Bot - " + chat_name + ": " + Fore.RESET, answer)
+        print(Fore.BLUE + "Bot - " + chat_name + ":" + Fore.RESET, answer)
 
         # Inserisco domanda e risposta nella history-chat
         chat.append({"question": prompt, "answer": response.text})
