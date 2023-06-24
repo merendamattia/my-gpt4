@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Importo GPT-4
 from gpt4free import you
 
